@@ -6,4 +6,4 @@ mod macros;
 pub use anyhow::{anyhow, bail, Result};
 pub use itertools;
 pub use itertools::Itertools;
-pub use regex;
+pub use regex::Regex;
