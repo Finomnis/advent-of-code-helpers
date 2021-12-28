@@ -25,15 +25,15 @@ macro_rules! aoc_tests {
     ( @main ) => {
         pub fn main() -> Result<()> {
             use advent_of_code_helpers::command_line::Parser;
-            use advent_of_code_helpers::anyhow::anyhow;
+            use advent_of_code_helpers::anyhow::{anyhow, bail};
 
             let opts = advent_of_code_helpers::command_line::Options::parse();
 
-            let day = stringify!(advent_of_code_helpers::aoc_get_day!());
+            let day = advent_of_code_helpers::aoc_tests!(@get_day).into_string().unwrap();
             println!(
-                "Running solver {}::{} ...",
-                stringify!(day),
-                stringify!(opts.task)
+                "Running solver {}::task{} ...",
+                day,
+                opts.task
             );
             let data = ::std::fs::read_to_string(&opts.data).map_err(
                 |e| anyhow!("Unable to open '{}': {}", opts.data.into_os_string().into_string().unwrap(), e)
@@ -41,7 +41,11 @@ macro_rules! aoc_tests {
             let t0 = ::std::time::Instant::now();
             let input_data = parse_input(&data)?;
             let t1 = ::std::time::Instant::now();
-            let solution = task1(&input_data);
+            let solution = match opts.task {
+                1 => format!("{}", task1(&input_data)?),
+                2 => format!("{}", task2(&input_data)?),
+                _ => bail!("Invalid task number!"),
+            };
             let t2 = ::std::time::Instant::now();
             println!("   ... parse input: {} ms", (t1 - t0).as_millis());
             println!("   ... calculate: {} ms", (t2 - t1).as_millis());
