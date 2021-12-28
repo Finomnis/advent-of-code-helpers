@@ -42,8 +42,8 @@ macro_rules! aoc_tests {
             let input_data = parse_input(&data)?;
             let t1 = ::std::time::Instant::now();
             let solution = match opts.task {
-                1 => format!("{}", task1(&input_data)?),
-                2 => format!("{}", task2(&input_data)?),
+                1 => format!("{}", task1(input_data)?),
+                2 => format!("{}", task2(input_data)?),
                 _ => bail!("Invalid task number!"),
             };
             let t2 = ::std::time::Instant::now();
