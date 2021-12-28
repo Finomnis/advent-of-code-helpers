@@ -10,3 +10,4 @@ ndarray = "0.15"
 anyhow = "1.0"
 clap = { version = "3.0.0-rc.9", features = ["derive"] }
 itertools = "0.10"
+regex = "1.5"
