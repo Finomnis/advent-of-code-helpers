@@ -12,7 +12,7 @@ macro_rules! aoc_tests {
             .join("input_data")
             .join(
                 [
-                    aoc_tests!(@get_day),
+                    super::aoc_tests!(@get_day),
                     "_".into(),
                     stringify!($name).into(),
                 ]
@@ -25,11 +25,11 @@ macro_rules! aoc_tests {
     ( @main ) => {
         pub fn main() -> Result<()> {
             use advent_of_code_helpers::command_line::Parser;
-            use advent_of_code_helpers::anyhow::{anyhow, bail};
+            use advent_of_code_helpers::{anyhow, bail};
 
             let opts = advent_of_code_helpers::command_line::Options::parse();
 
-            let day = advent_of_code_helpers::aoc_tests!(@get_day).into_string().unwrap();
+            let day = aoc_tests!(@get_day).into_string().unwrap();
             println!(
                 "Running solver {}::task{} ...",
                 day,
@@ -72,14 +72,14 @@ macro_rules! aoc_tests {
             #[test]
             fn $name() {
                 let data = {
-                    let input_file = super::aoc_tests!(@load_input_file $name);
+                    let input_file = super::aoc_tests!(@get_input_file_name $name);
                     ::std::fs::read_to_string(&input_file).unwrap_or_else(
                         |e| panic!("Unable to open '{}': {}", input_file.into_os_string().into_string().unwrap(), e)
                     )
                 };
 
-                let input_data = super::parse_input(&data);
-                let actual_result = super::$suite(input_data);
+                let input_data = super::parse_input(&data).unwrap();
+                let actual_result = super::$suite(input_data).unwrap();
 
                 assert_eq!($expected_result, actual_result);
             }

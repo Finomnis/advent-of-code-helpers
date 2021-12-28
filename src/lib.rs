@@ -3,4 +3,4 @@ pub mod helpers;
 pub mod command_line;
 mod macros;
 
-pub use anyhow;
+pub use anyhow::{anyhow, bail, Result};
